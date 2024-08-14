@@ -1,0 +1,11 @@
+{% extends "base.html" %}
+{% block title %}HomePage{% endblock title %}
+
+{% block content %}
+    {% for blog in blogs %}
+        <div class="post-entry">
+            <h2><a href="{% url 'blog-detail' blog.pk %}">{{ blog.title }}</a></h2>
+            <p>{{ blog.body }}</p>
+        </div>
+    {% endfor %}
+{% endblock content %}
