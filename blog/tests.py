@@ -41,3 +41,27 @@ class BlogTests(TestCase):
         self.assertEqual(bad_response.status_code, 404)
         self.assertContains(response, 'lorem ipsum et al')
         self.assertTemplateUsed(response, 'blog_detail.html')
+
+    def test_get_absolute_url(self):
+        self.assertEqual(self.blog.get_absolute_url(), '/blog/1/')
+
+    def test_blog_create_view(self):
+        response = self.client.post(reverse('new-blog'), {
+            'title': 'New title',
+            'body': 'New body',
+            'author': self.user
+        })
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(response, 'New title')
+        self.assertContains(response, 'New body')
+
+    def test_blog_update_view(self):
+        response = self.client.post(reverse('edit-blog', args='1'), {
+            'title': 'Updated title',
+            'body': 'Updated body'
+        })
+        self.assertEqual(response.status_code, 302)
+
+    def test_blog_delete_view(self):
+        response = self.client.get(reverse('delete-blog', args='1'))
+        self.assertEqual(response.status_code, 200)
