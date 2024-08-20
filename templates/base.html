@@ -13,7 +13,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&family=Source+Sans+3:ital,wght@0,200..900;1,200..900&display=swap" rel="stylesheet">
 
     {% comment %} stylesheet {% endcomment %}
-    <link rel="stylesheet" href="{% static 'css/base.css' %}"
+    <link rel="stylesheet" href="{% static 'css/base.css' %}">
 </head>
 
 <body>
@@ -25,6 +25,16 @@
             <a href="{% url "new-blog" %}">+ New Blog Post</a>
         </div>
     </header>
+    <form method="post" action="{% url "logout" %}">
+        {% csrf_token %}
+        {% if user.is_authenticated %}
+            <p>Hi, {{ user.username }}</p>
+            <button type="submit">Logout</button>
+        {% else %}
+            <p>You are not logged in</p>
+            <a href="{% url "login" %}">Log in</a>
+        {% endif %}
+    </form>
     <div>
         {% block content %}{% endblock content %}
     </div>
